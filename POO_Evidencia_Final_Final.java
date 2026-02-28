@@ -1,98 +1,132 @@
-import java.util.Scanner
+import java.util.Scanner;
 
+// Clase Base Persona
 abstract class Person {
-    private String name
+    private String name;
 
     public Person(String name) {
-        name = name;
+        this.name = name;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public abstract void showRole()
+    public abstract void showRole();
 }
 
+// Usuario
 class LibraryUser extends Person {
-    private int id
+    private int id;
 
     public LibraryUser(String name, int id) {
-        super(name)
+        super(name);
         this.id = id;
     }
 
     public int getId() {
-        return ID;
+        return id;
     }
 
     @Override
     public void showRole() {
-        System.out.println("Rol Usuario del sistema")
+        System.out.println("Rol: Usuario del sistema");
     }
 }
 
+// Libro
 class Book {
     private String title;
-    private String author
-    private boolean available
+    private String author;
+    private boolean available = true;
 
     public Book(String title, String author) {
         this.title = title;
         this.author = author;
-        available = true
     }
 
     public void showBook() {
-        System.out.println("Título " + title)
-        System.out.println("Autor " + author)
+        System.out.println("Título: " + title);
+        System.out.println("Autor: " + author);
     }
 
     public boolean borrowBook() {
-        if (available = true) {
-            available = false
-            return true
+        if (available == true) {
+            available = false;
+            return true;
         }
-        return false
+        return false;
     }
 }
 
+// Préstamo
 class Loan {
-    private String startDate
+    private String startDate;
     private String endDate;
 
     public Loan(String startDate, String endDate) {
-        this.startDate = startDate
-        this.endDate = endDate
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public void showLoan() {
-        System.out.println("Fecha inicio " + startDate)
-        System.out.println("Fecha fin " + endDate)
+        System.out.println("Fecha inicio: " + startDate);
+        System.out.println("Fecha fin: " + endDate);
     }
 }
 
+// Principal
 public class POO_Evidencia_Final_Final {
 
-    public static void main(String args) {
+    public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in)
+        Scanner sc = new Scanner(System.in);
+        int option;
 
-        Book book = new Book("Java Fundamentals", "Autor")
-        LibraryUser user = new LibraryUser("Carlos", 101)
-        Loan loan = new Loan("01/02/2026", "10/02/2026")
+        Book book = new Book("Java Fundamentals", "Autor Desconocido");
+        LibraryUser user = new LibraryUser("Carlos", 101);
+        Loan loan = new Loan("01/02/2026", "10/02/2026");
 
-        int option = sc.nextInt()
+        do {
+            System.out.println("\n=== MENU PRINCIPAL ===");
+            System.out.println("1. Ver libro");
+            System.out.println("2. Ver usuario");
+            System.out.println("3. Realizar préstamo");
+            System.out.println("0. Salir");
+            System.out.print("Seleccione una opción: ");
 
-        switch(option) {
-            case 1
-                book.showBook()
-            break
+            option = sc.nextInt();
 
-            case 2:
-                user.showRole()
-                System.out.println(user.getName())
-            break
-        }
+            switch (option) {
+
+                case 1:
+                    book.showBook();
+                    break;
+
+                case 2:
+                    user.showRole();
+                    System.out.println("Nombre: " + user.getName());
+                    break;
+
+                case 3:
+                    if (book.borrowBook()) {
+                        System.out.println("Préstamo realizado.");
+                        loan.showLoan();
+                    } else {
+                        System.out.println("Libro no disponible.");
+                    }
+                    break;
+
+                case 0:
+                    System.out.println("Sistema finalizado.");
+                    break;
+
+                default:
+                    System.out.println("Opción inválida.");
+            }
+
+        } while (option != 0);
+
+        sc.close();
     }
 }
