@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-// Clase Base Persona
+// Clase Base Persona (Herencia)
 abstract class Person {
     private String name;
 
@@ -15,7 +15,7 @@ abstract class Person {
     public abstract void showRole();
 }
 
-// Usuario
+// Usuario Hereda de Person
 class LibraryUser extends Person {
     private int id;
 
@@ -34,32 +34,38 @@ class LibraryUser extends Person {
     }
 }
 
-// Libro
+// Libro con encapsulamiento
 class Book {
     private String title;
     private String author;
-    private boolean available = true;
+    private boolean available;
 
     public Book(String title, String author) {
         this.title = title;
         this.author = author;
+        this.available = true;
     }
 
     public void showBook() {
         System.out.println("Título: " + title);
         System.out.println("Autor: " + author);
+        System.out.println("Disponible: " + (available ? "Sí" : "No"));
     }
 
     public boolean borrowBook() {
-        if (available == true) {
+        if (available) {
             available = false;
             return true;
         }
         return false;
     }
+
+    public void returnBook() {
+        available = true;
+    }
 }
 
-// Préstamo
+// Clase préstamo
 class Loan {
     private String startDate;
     private String endDate;
@@ -75,7 +81,7 @@ class Loan {
     }
 }
 
-// Principal
+// Clase principal
 public class POO_Evidencia_Final_Final {
 
     public static void main(String[] args) {
@@ -83,6 +89,7 @@ public class POO_Evidencia_Final_Final {
         Scanner sc = new Scanner(System.in);
         int option;
 
+        // Objetos de ejemplo
         Book book = new Book("Java Fundamentals", "Autor Desconocido");
         LibraryUser user = new LibraryUser("Carlos", 101);
         Loan loan = new Loan("01/02/2026", "10/02/2026");
@@ -95,6 +102,11 @@ public class POO_Evidencia_Final_Final {
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
+            while (!sc.hasNextInt()) {
+                System.out.print("Ingrese un número válido: ");
+                sc.next();
+            }
+
             option = sc.nextInt();
 
             switch (option) {
@@ -106,14 +118,15 @@ public class POO_Evidencia_Final_Final {
                 case 2:
                     user.showRole();
                     System.out.println("Nombre: " + user.getName());
+                    System.out.println("ID: " + user.getId());
                     break;
 
                 case 3:
                     if (book.borrowBook()) {
-                        System.out.println("Préstamo realizado.");
+                        System.out.println("Préstamo realizado con éxito.");
                         loan.showLoan();
                     } else {
-                        System.out.println("Libro no disponible.");
+                        System.out.println("El libro no está disponible.");
                     }
                     break;
 
